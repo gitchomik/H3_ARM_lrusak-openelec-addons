@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="32001">
+        <setting label="32011" type="bool" id="enable_cec" default="false"/>
+        <setting label="32012" type="enum" id="cec_mode" lvalues="32021|32022" enable="eq(-1,true)"/>
+    </category>
+</settings>
