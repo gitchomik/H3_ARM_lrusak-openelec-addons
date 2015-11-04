@@ -1,0 +1,228 @@
+## Generated using
+## find . -name "*.go" -print | xargs sed -i 's/\/etc\/docker/\/storage\/.kodi\/userdata\/addon_data\/service.system.docker\/config/g'
+
+diff -Naur docker-1.9.0-rc1.orig/docker/daemon_unix.go docker-1.9.0-rc1/docker/daemon_unix.go
+--- docker-1.9.0-rc1.orig/docker/daemon_unix.go	2015-10-13 17:50:46.000000000 -0700
++++ docker-1.9.0-rc1/docker/daemon_unix.go	2015-10-19 12:22:39.264800317 -0700
+@@ -46,5 +46,5 @@
+ }
+ 
+ func getDaemonConfDir() string {
+-	return "/etc/docker"
++	return "/storage/.kodi/userdata/addon_data/service.system.docker/config"
+ }
+diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_daemon_test.go docker-1.9.0-rc1/integration-cli/docker_cli_daemon_test.go
+--- docker-1.9.0-rc1.orig/integration-cli/docker_cli_daemon_test.go	2015-10-13 17:50:46.000000000 -0700
++++ docker-1.9.0-rc1/integration-cli/docker_cli_daemon_test.go	2015-10-19 12:22:39.287800255 -0700
+@@ -553,13 +553,13 @@
+ 
+ func (s *DockerDaemonSuite) TestDaemonKeyGeneration(c *check.C) {
+ 	// TODO: skip or update for Windows daemon
+-	os.Remove("/etc/docker/key.json")
++	os.Remove("/storage/.kodi/userdata/addon_data/service.system.docker/config/key.json")
+ 	if err := s.d.Start(); err != nil {
+ 		c.Fatalf("Could not start daemon: %v", err)
+ 	}
+ 	s.d.Stop()
+ 
+-	k, err := libtrust.LoadKeyFile("/etc/docker/key.json")
++	k, err := libtrust.LoadKeyFile("/storage/.kodi/userdata/addon_data/service.system.docker/config/key.json")
+ 	if err != nil {
+ 		c.Fatalf("Error opening key file")
+ 	}
+@@ -572,7 +572,7 @@
+ 
+ func (s *DockerDaemonSuite) TestDaemonKeyMigration(c *check.C) {
+ 	// TODO: skip or update for Windows daemon
+-	os.Remove("/etc/docker/key.json")
++	os.Remove("/storage/.kodi/userdata/addon_data/service.system.docker/config/key.json")
+ 	k1, err := libtrust.GenerateECP256PrivateKey()
+ 	if err != nil {
+ 		c.Fatalf("Error generating private key: %s", err)
+@@ -589,7 +589,7 @@
+ 	}
+ 	s.d.Stop()
+ 
+-	k2, err := libtrust.LoadKeyFile("/etc/docker/key.json")
++	k2, err := libtrust.LoadKeyFile("/storage/.kodi/userdata/addon_data/service.system.docker/config/key.json")
+ 	if err != nil {
+ 		c.Fatalf("Error opening key file")
+ 	}
+@@ -1284,7 +1284,7 @@
+ 		Y   string `json:"y"`
+ 	}
+ 
+-	os.Remove("/etc/docker/key.json")
++	os.Remove("/storage/.kodi/userdata/addon_data/service.system.docker/config/key.json")
+ 	if err := s.d.Start(); err != nil {
+ 		c.Fatalf("Failed to start daemon: %v", err)
+ 	}
+@@ -1294,7 +1294,7 @@
+ 	}
+ 
+ 	config := &Config{}
+-	bytes, err := ioutil.ReadFile("/etc/docker/key.json")
++	bytes, err := ioutil.ReadFile("/storage/.kodi/userdata/addon_data/service.system.docker/config/key.json")
+ 	if err != nil {
+ 		c.Fatalf("Error reading key.json file: %s", err)
+ 	}
+@@ -1314,11 +1314,11 @@
+ 	}
+ 
+ 	// write back
+-	if err := ioutil.WriteFile("/etc/docker/key.json", newBytes, 0400); err != nil {
++	if err := ioutil.WriteFile("/storage/.kodi/userdata/addon_data/service.system.docker/config/key.json", newBytes, 0400); err != nil {
+ 		c.Fatalf("Error ioutil.WriteFile: %s", err)
+ 	}
+ 
+-	defer os.Remove("/etc/docker/key.json")
++	defer os.Remove("/storage/.kodi/userdata/addon_data/service.system.docker/config/key.json")
+ 
+ 	if err := s.d.Start(); err == nil {
+ 		c.Fatalf("It should not be successful to start daemon with wrong key: %v", err)
+diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_external_graphdriver_unix_test.go docker-1.9.0-rc1/integration-cli/docker_cli_external_graphdriver_unix_test.go
+--- docker-1.9.0-rc1.orig/integration-cli/docker_cli_external_graphdriver_unix_test.go	2015-10-13 17:50:46.000000000 -0700
++++ docker-1.9.0-rc1/integration-cli/docker_cli_external_graphdriver_unix_test.go	2015-10-19 12:22:39.305800207 -0700
+@@ -285,11 +285,11 @@
+ 		respond(w, &graphDriverResponse{Size: size})
+ 	})
+ 
+-	if err := os.MkdirAll("/etc/docker/plugins", 0755); err != nil {
++	if err := os.MkdirAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins", 0755); err != nil {
+ 		c.Fatal(err)
+ 	}
+ 
+-	if err := ioutil.WriteFile("/etc/docker/plugins/test-external-graph-driver.spec", []byte(s.server.URL), 0644); err != nil {
++	if err := ioutil.WriteFile("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins/test-external-graph-driver.spec", []byte(s.server.URL), 0644); err != nil {
+ 		c.Fatal(err)
+ 	}
+ }
+@@ -297,7 +297,7 @@
+ func (s *DockerExternalGraphdriverSuite) TearDownSuite(c *check.C) {
+ 	s.server.Close()
+ 
+-	if err := os.RemoveAll("/etc/docker/plugins"); err != nil {
++	if err := os.RemoveAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins"); err != nil {
+ 		c.Fatal(err)
+ 	}
+ }
+diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_network_unix_test.go docker-1.9.0-rc1/integration-cli/docker_cli_network_unix_test.go
+--- docker-1.9.0-rc1.orig/integration-cli/docker_cli_network_unix_test.go	2015-10-13 17:50:46.000000000 -0700
++++ docker-1.9.0-rc1/integration-cli/docker_cli_network_unix_test.go	2015-10-19 12:22:39.307800201 -0700
+@@ -67,11 +67,11 @@
+ 		fmt.Fprintf(w, "null")
+ 	})
+ 
+-	if err := os.MkdirAll("/etc/docker/plugins", 0755); err != nil {
++	if err := os.MkdirAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins", 0755); err != nil {
+ 		c.Fatal(err)
+ 	}
+ 
+-	fileName := fmt.Sprintf("/etc/docker/plugins/%s.spec", dummyNetworkDriver)
++	fileName := fmt.Sprintf("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins/%s.spec", dummyNetworkDriver)
+ 	if err := ioutil.WriteFile(fileName, []byte(s.server.URL), 0644); err != nil {
+ 		c.Fatal(err)
+ 	}
+@@ -84,7 +84,7 @@
+ 
+ 	s.server.Close()
+ 
+-	if err := os.RemoveAll("/etc/docker/plugins"); err != nil {
++	if err := os.RemoveAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins"); err != nil {
+ 		c.Fatal(err)
+ 	}
+ }
+diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_start_volume_driver_unix_test.go docker-1.9.0-rc1/integration-cli/docker_cli_start_volume_driver_unix_test.go
+--- docker-1.9.0-rc1.orig/integration-cli/docker_cli_start_volume_driver_unix_test.go	2015-10-13 17:50:46.000000000 -0700
++++ docker-1.9.0-rc1/integration-cli/docker_cli_start_volume_driver_unix_test.go	2015-10-19 12:22:39.303800212 -0700
+@@ -125,11 +125,11 @@
+ 		fmt.Fprintln(w, `{}`)
+ 	})
+ 
+-	if err := os.MkdirAll("/etc/docker/plugins", 0755); err != nil {
++	if err := os.MkdirAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins", 0755); err != nil {
+ 		c.Fatal(err)
+ 	}
+ 
+-	if err := ioutil.WriteFile("/etc/docker/plugins/test-external-volume-driver.spec", []byte(s.server.URL), 0644); err != nil {
++	if err := ioutil.WriteFile("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins/test-external-volume-driver.spec", []byte(s.server.URL), 0644); err != nil {
+ 		c.Fatal(err)
+ 	}
+ }
+@@ -137,7 +137,7 @@
+ func (s *DockerExternalVolumeSuite) TearDownSuite(c *check.C) {
+ 	s.server.Close()
+ 
+-	if err := os.RemoveAll("/etc/docker/plugins"); err != nil {
++	if err := os.RemoveAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins"); err != nil {
+ 		c.Fatal(err)
+ 	}
+ }
+@@ -272,8 +272,8 @@
+ 
+ // Make sure a request to use a down driver doesn't block other requests
+ func (s *DockerExternalVolumeSuite) TestStartExternalVolumeDriverLookupNotBlocked(c *check.C) {
+-	specPath := "/etc/docker/plugins/down-driver.spec"
+-	err := ioutil.WriteFile("/etc/docker/plugins/down-driver.spec", []byte("tcp://127.0.0.7:9999"), 0644)
++	specPath := "/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins/down-driver.spec"
++	err := ioutil.WriteFile("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins/down-driver.spec", []byte("tcp://127.0.0.7:9999"), 0644)
+ 	c.Assert(err, check.IsNil)
+ 	defer os.RemoveAll(specPath)
+ 
+@@ -312,7 +312,7 @@
+ 		c.Fatal(err)
+ 	}
+ 
+-	specPath := "/etc/docker/plugins/test-external-volume-driver-retry.spec"
++	specPath := "/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins/test-external-volume-driver-retry.spec"
+ 	os.RemoveAll(specPath)
+ 	defer os.RemoveAll(specPath)
+ 
+diff -Naur docker-1.9.0-rc1.orig/pkg/plugins/discovery.go docker-1.9.0-rc1/pkg/plugins/discovery.go
+--- docker-1.9.0-rc1.orig/pkg/plugins/discovery.go	2015-10-13 17:50:46.000000000 -0700
++++ docker-1.9.0-rc1/pkg/plugins/discovery.go	2015-10-19 12:22:39.407799931 -0700
+@@ -15,7 +15,7 @@
+ 	// ErrNotFound plugin not found
+ 	ErrNotFound = errors.New("Plugin not found")
+ 	socketsPath = "/run/docker/plugins"
+-	specsPaths  = []string{"/etc/docker/plugins", "/usr/lib/docker/plugins"}
++	specsPaths  = []string{"/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins", "/usr/lib/docker/plugins"}
+ )
+ 
+ // Registry defines behavior of a registry of plugins.
+diff -Naur docker-1.9.0-rc1.orig/pkg/plugins/plugins.go docker-1.9.0-rc1/pkg/plugins/plugins.go
+--- docker-1.9.0-rc1.orig/pkg/plugins/plugins.go	2015-10-13 17:50:46.000000000 -0700
++++ docker-1.9.0-rc1/pkg/plugins/plugins.go	2015-10-19 12:22:39.406799934 -0700
+@@ -4,7 +4,7 @@
+ // Docker discovers plugins by looking for them in the plugin directory whenever
+ // a user or container tries to use one by name. UNIX domain socket files must
+ // be located under /run/docker/plugins, whereas spec files can be located
+-// either under /etc/docker/plugins or /usr/lib/docker/plugins. This is handled
++// either under /storage/.kodi/userdata/addon_data/service.system.docker/config/plugins or /usr/lib/docker/plugins. This is handled
+ // by the Registry interface, which lets you list all plugins or get a plugin by
+ // its name if it exists.
+ //
+diff -Naur docker-1.9.0-rc1.orig/registry/config_unix.go docker-1.9.0-rc1/registry/config_unix.go
+--- docker-1.9.0-rc1.orig/registry/config_unix.go	2015-10-13 17:50:46.000000000 -0700
++++ docker-1.9.0-rc1/registry/config_unix.go	2015-10-19 12:22:39.345800099 -0700
+@@ -10,7 +10,7 @@
+ 	DefaultV2Registry = "https://registry-1.docker.io"
+ 
+ 	// CertsDir is the directory where certificates are stored
+-	CertsDir = "/etc/docker/certs.d"
++	CertsDir = "/storage/.kodi/userdata/addon_data/service.system.docker/config/certs.d"
+ )
+ 
+ // cleanPath is used to ensure that a directory name is valid on the target
+diff -Naur docker-1.9.0-rc1.orig/registry/endpoint.go docker-1.9.0-rc1/registry/endpoint.go
+--- docker-1.9.0-rc1.orig/registry/endpoint.go	2015-10-13 17:50:46.000000000 -0700
++++ docker-1.9.0-rc1/registry/endpoint.go	2015-10-19 12:22:39.336800123 -0700
+@@ -72,7 +72,7 @@
+ 		if endpoint.IsSecure {
+ 			// If registry is secure and HTTPS failed, show user the error and tell them about `--insecure-registry`
+ 			// in case that's what they need. DO NOT accept unknown CA certificates, and DO NOT fallback to HTTP.
+-			return fmt.Errorf("invalid registry endpoint %s: %v. If this private registry supports only HTTP or HTTPS with an unknown CA certificate, please add `--insecure-registry %s` to the daemon's arguments. In the case of HTTPS, if you have access to the registry's CA certificate, no need for the flag; simply place the CA certificate at /etc/docker/certs.d/%s/ca.crt", endpoint, err, endpoint.URL.Host, endpoint.URL.Host)
++			return fmt.Errorf("invalid registry endpoint %s: %v. If this private registry supports only HTTP or HTTPS with an unknown CA certificate, please add `--insecure-registry %s` to the daemon's arguments. In the case of HTTPS, if you have access to the registry's CA certificate, no need for the flag; simply place the CA certificate at /storage/.kodi/userdata/addon_data/service.system.docker/config/certs.d/%s/ca.crt", endpoint, err, endpoint.URL.Host, endpoint.URL.Host)
+ 		}
+ 
+ 		// If registry is insecure and HTTPS failed, fallback to HTTP.
