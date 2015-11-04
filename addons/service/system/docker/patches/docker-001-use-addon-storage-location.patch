@@ -1,9 +1,6 @@
-## Generated using
-## find . -name "*.go" -print | xargs sed -i 's/\/etc\/docker/\/storage\/.kodi\/userdata\/addon_data\/service.system.docker\/config/g'
-
-diff -Naur docker-1.9.0-rc1.orig/docker/daemon_unix.go docker-1.9.0-rc1/docker/daemon_unix.go
---- docker-1.9.0-rc1.orig/docker/daemon_unix.go	2015-10-13 17:50:46.000000000 -0700
-+++ docker-1.9.0-rc1/docker/daemon_unix.go	2015-10-19 12:22:39.264800317 -0700
+diff -Naur a/docker/daemon_unix.go b/docker/daemon_unix.go
+--- a/docker/daemon_unix.go	2015-11-03 09:21:26.000000000 -0800
++++ b/docker/daemon_unix.go	2015-11-04 14:07:14.632354995 -0800
 @@ -46,5 +46,5 @@
  }
  
@@ -11,10 +8,10 @@ diff -Naur docker-1.9.0-rc1.orig/docker/daemon_unix.go docker-1.9.0-rc1/docker/d
 -	return "/etc/docker"
 +	return "/storage/.kodi/userdata/addon_data/service.system.docker/config"
  }
-diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_daemon_test.go docker-1.9.0-rc1/integration-cli/docker_cli_daemon_test.go
---- docker-1.9.0-rc1.orig/integration-cli/docker_cli_daemon_test.go	2015-10-13 17:50:46.000000000 -0700
-+++ docker-1.9.0-rc1/integration-cli/docker_cli_daemon_test.go	2015-10-19 12:22:39.287800255 -0700
-@@ -553,13 +553,13 @@
+diff -Naur a/integration-cli/docker_cli_daemon_test.go b/integration-cli/docker_cli_daemon_test.go
+--- a/integration-cli/docker_cli_daemon_test.go	2015-11-03 09:21:26.000000000 -0800
++++ b/integration-cli/docker_cli_daemon_test.go	2015-11-04 14:07:14.656354908 -0800
+@@ -554,13 +554,13 @@
  
  func (s *DockerDaemonSuite) TestDaemonKeyGeneration(c *check.C) {
  	// TODO: skip or update for Windows daemon
@@ -30,7 +27,7 @@ diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_daemon_test.go docke
  	if err != nil {
  		c.Fatalf("Error opening key file")
  	}
-@@ -572,7 +572,7 @@
+@@ -573,7 +573,7 @@
  
  func (s *DockerDaemonSuite) TestDaemonKeyMigration(c *check.C) {
  	// TODO: skip or update for Windows daemon
@@ -39,7 +36,7 @@ diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_daemon_test.go docke
  	k1, err := libtrust.GenerateECP256PrivateKey()
  	if err != nil {
  		c.Fatalf("Error generating private key: %s", err)
-@@ -589,7 +589,7 @@
+@@ -590,7 +590,7 @@
  	}
  	s.d.Stop()
  
@@ -48,7 +45,7 @@ diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_daemon_test.go docke
  	if err != nil {
  		c.Fatalf("Error opening key file")
  	}
-@@ -1284,7 +1284,7 @@
+@@ -1328,7 +1328,7 @@
  		Y   string `json:"y"`
  	}
  
@@ -57,7 +54,7 @@ diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_daemon_test.go docke
  	if err := s.d.Start(); err != nil {
  		c.Fatalf("Failed to start daemon: %v", err)
  	}
-@@ -1294,7 +1294,7 @@
+@@ -1338,7 +1338,7 @@
  	}
  
  	config := &Config{}
@@ -66,7 +63,7 @@ diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_daemon_test.go docke
  	if err != nil {
  		c.Fatalf("Error reading key.json file: %s", err)
  	}
-@@ -1314,11 +1314,11 @@
+@@ -1358,11 +1358,11 @@
  	}
  
  	// write back
@@ -80,9 +77,9 @@ diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_daemon_test.go docke
  
  	if err := s.d.Start(); err == nil {
  		c.Fatalf("It should not be successful to start daemon with wrong key: %v", err)
-diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_external_graphdriver_unix_test.go docker-1.9.0-rc1/integration-cli/docker_cli_external_graphdriver_unix_test.go
---- docker-1.9.0-rc1.orig/integration-cli/docker_cli_external_graphdriver_unix_test.go	2015-10-13 17:50:46.000000000 -0700
-+++ docker-1.9.0-rc1/integration-cli/docker_cli_external_graphdriver_unix_test.go	2015-10-19 12:22:39.305800207 -0700
+diff -Naur a/integration-cli/docker_cli_external_graphdriver_unix_test.go b/integration-cli/docker_cli_external_graphdriver_unix_test.go
+--- a/integration-cli/docker_cli_external_graphdriver_unix_test.go	2015-11-03 09:21:26.000000000 -0800
++++ b/integration-cli/docker_cli_external_graphdriver_unix_test.go	2015-11-04 14:07:14.675354839 -0800
 @@ -285,11 +285,11 @@
  		respond(w, &graphDriverResponse{Size: size})
  	})
@@ -106,35 +103,39 @@ diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_external_graphdriver
  		c.Fatal(err)
  	}
  }
-diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_network_unix_test.go docker-1.9.0-rc1/integration-cli/docker_cli_network_unix_test.go
---- docker-1.9.0-rc1.orig/integration-cli/docker_cli_network_unix_test.go	2015-10-13 17:50:46.000000000 -0700
-+++ docker-1.9.0-rc1/integration-cli/docker_cli_network_unix_test.go	2015-10-19 12:22:39.307800201 -0700
-@@ -67,11 +67,11 @@
- 		fmt.Fprintf(w, "null")
+diff -Naur a/integration-cli/docker_cli_network_unix_test.go b/integration-cli/docker_cli_network_unix_test.go
+--- a/integration-cli/docker_cli_network_unix_test.go	2015-11-03 09:21:26.000000000 -0800
++++ b/integration-cli/docker_cli_network_unix_test.go	2015-11-04 14:07:14.678354828 -0800
+@@ -194,14 +194,14 @@
+ 		}
  	})
  
--	if err := os.MkdirAll("/etc/docker/plugins", 0755); err != nil {
-+	if err := os.MkdirAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins", 0755); err != nil {
- 		c.Fatal(err)
- 	}
+-	err := os.MkdirAll("/etc/docker/plugins", 0755)
++	err := os.MkdirAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins", 0755)
+ 	c.Assert(err, checker.IsNil)
  
 -	fileName := fmt.Sprintf("/etc/docker/plugins/%s.spec", dummyNetworkDriver)
 +	fileName := fmt.Sprintf("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins/%s.spec", dummyNetworkDriver)
- 	if err := ioutil.WriteFile(fileName, []byte(s.server.URL), 0644); err != nil {
- 		c.Fatal(err)
- 	}
-@@ -84,7 +84,7 @@
+ 	err = ioutil.WriteFile(fileName, []byte(s.server.URL), 0644)
+ 	c.Assert(err, checker.IsNil)
+ 
+-	ipamFileName := fmt.Sprintf("/etc/docker/plugins/%s.spec", dummyIpamDriver)
++	ipamFileName := fmt.Sprintf("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins/%s.spec", dummyIpamDriver)
+ 	err = ioutil.WriteFile(ipamFileName, []byte(s.server.URL), 0644)
+ 	c.Assert(err, checker.IsNil)
+ }
+@@ -213,7 +213,7 @@
  
  	s.server.Close()
  
--	if err := os.RemoveAll("/etc/docker/plugins"); err != nil {
-+	if err := os.RemoveAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins"); err != nil {
- 		c.Fatal(err)
- 	}
+-	err := os.RemoveAll("/etc/docker/plugins")
++	err := os.RemoveAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins")
+ 	c.Assert(err, checker.IsNil)
  }
-diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_start_volume_driver_unix_test.go docker-1.9.0-rc1/integration-cli/docker_cli_start_volume_driver_unix_test.go
---- docker-1.9.0-rc1.orig/integration-cli/docker_cli_start_volume_driver_unix_test.go	2015-10-13 17:50:46.000000000 -0700
-+++ docker-1.9.0-rc1/integration-cli/docker_cli_start_volume_driver_unix_test.go	2015-10-19 12:22:39.303800212 -0700
+ 
+diff -Naur a/integration-cli/docker_cli_start_volume_driver_unix_test.go b/integration-cli/docker_cli_start_volume_driver_unix_test.go
+--- a/integration-cli/docker_cli_start_volume_driver_unix_test.go	2015-11-03 09:21:26.000000000 -0800
++++ b/integration-cli/docker_cli_start_volume_driver_unix_test.go	2015-11-04 14:07:14.672354850 -0800
 @@ -125,11 +125,11 @@
  		fmt.Fprintln(w, `{}`)
  	})
@@ -178,9 +179,9 @@ diff -Naur docker-1.9.0-rc1.orig/integration-cli/docker_cli_start_volume_driver_
  	os.RemoveAll(specPath)
  	defer os.RemoveAll(specPath)
  
-diff -Naur docker-1.9.0-rc1.orig/pkg/plugins/discovery.go docker-1.9.0-rc1/pkg/plugins/discovery.go
---- docker-1.9.0-rc1.orig/pkg/plugins/discovery.go	2015-10-13 17:50:46.000000000 -0700
-+++ docker-1.9.0-rc1/pkg/plugins/discovery.go	2015-10-19 12:22:39.407799931 -0700
+diff -Naur a/pkg/plugins/discovery.go b/pkg/plugins/discovery.go
+--- a/pkg/plugins/discovery.go	2015-11-03 09:21:26.000000000 -0800
++++ b/pkg/plugins/discovery.go	2015-11-04 14:07:14.823354302 -0800
 @@ -15,7 +15,7 @@
  	// ErrNotFound plugin not found
  	ErrNotFound = errors.New("Plugin not found")
@@ -190,9 +191,9 @@ diff -Naur docker-1.9.0-rc1.orig/pkg/plugins/discovery.go docker-1.9.0-rc1/pkg/p
  )
  
  // Registry defines behavior of a registry of plugins.
-diff -Naur docker-1.9.0-rc1.orig/pkg/plugins/plugins.go docker-1.9.0-rc1/pkg/plugins/plugins.go
---- docker-1.9.0-rc1.orig/pkg/plugins/plugins.go	2015-10-13 17:50:46.000000000 -0700
-+++ docker-1.9.0-rc1/pkg/plugins/plugins.go	2015-10-19 12:22:39.406799934 -0700
+diff -Naur a/pkg/plugins/plugins.go b/pkg/plugins/plugins.go
+--- a/pkg/plugins/plugins.go	2015-11-03 09:21:26.000000000 -0800
++++ b/pkg/plugins/plugins.go	2015-11-04 14:07:14.822354305 -0800
 @@ -4,7 +4,7 @@
  // Docker discovers plugins by looking for them in the plugin directory whenever
  // a user or container tries to use one by name. UNIX domain socket files must
@@ -202,9 +203,9 @@ diff -Naur docker-1.9.0-rc1.orig/pkg/plugins/plugins.go docker-1.9.0-rc1/pkg/plu
  // by the Registry interface, which lets you list all plugins or get a plugin by
  // its name if it exists.
  //
-diff -Naur docker-1.9.0-rc1.orig/registry/config_unix.go docker-1.9.0-rc1/registry/config_unix.go
---- docker-1.9.0-rc1.orig/registry/config_unix.go	2015-10-13 17:50:46.000000000 -0700
-+++ docker-1.9.0-rc1/registry/config_unix.go	2015-10-19 12:22:39.345800099 -0700
+diff -Naur a/registry/config_unix.go b/registry/config_unix.go
+--- a/registry/config_unix.go	2015-11-03 09:21:26.000000000 -0800
++++ b/registry/config_unix.go	2015-11-04 14:07:14.717354687 -0800
 @@ -10,7 +10,7 @@
  	DefaultV2Registry = "https://registry-1.docker.io"
  
@@ -214,9 +215,9 @@ diff -Naur docker-1.9.0-rc1.orig/registry/config_unix.go docker-1.9.0-rc1/regist
  )
  
  // cleanPath is used to ensure that a directory name is valid on the target
-diff -Naur docker-1.9.0-rc1.orig/registry/endpoint.go docker-1.9.0-rc1/registry/endpoint.go
---- docker-1.9.0-rc1.orig/registry/endpoint.go	2015-10-13 17:50:46.000000000 -0700
-+++ docker-1.9.0-rc1/registry/endpoint.go	2015-10-19 12:22:39.336800123 -0700
+diff -Naur a/registry/endpoint.go b/registry/endpoint.go
+--- a/registry/endpoint.go	2015-11-03 09:21:26.000000000 -0800
++++ b/registry/endpoint.go	2015-11-04 14:07:14.708354719 -0800
 @@ -72,7 +72,7 @@
  		if endpoint.IsSecure {
  			// If registry is secure and HTTPS failed, show user the error and tell them about `--insecure-registry`
