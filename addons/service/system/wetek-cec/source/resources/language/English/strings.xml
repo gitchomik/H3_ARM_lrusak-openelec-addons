@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<strings>
-        <string id="32001">Wetek Play HDMI CEC Settings</string>
-        <string id="32011">Enable HDMI CEC</string>
-        <string id="32012">HDMI CEC Mode</string>
-        <string id="32021">Default</string>
-        <string id="32022">Disable One Touch Standby</string>
-        
-</strings>
