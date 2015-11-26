@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="32001">
+        <setting label="32002" type="bool" id="autostart_openvpn" default="false"/>
+        <setting label="32003" type="file" id="config_file"/>
+        <setting label="32004" type="text" id="custom_options"/>
+    </category>
+    <category label="32011">
+        <setting label="32012" type="action" action="RunScript(service.network.openvpn, toggle)"/>
+        <setting label="32013" type="action" action="RunScript(service.network.openvpn, ipinfo)"/>
+    </category>
+</settings>
