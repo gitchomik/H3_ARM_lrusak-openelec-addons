@@ -1,13 +1,14 @@
 [Unit]
 Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
-After=network.target
+After=network.target docker.socket
+Requires=docker.socket
 
 [Service]
 Type=notify
 ExecStartPre=/storage/.kodi/addons/service.system.docker/bin/docker-config
 EnvironmentFile=-/storage/.kodi/userdata/addon_data/service.system.docker/config/docker.conf
-ExecStart=/storage/.kodi/addons/service.system.docker/bin/docker daemon $DOCKER_DAEMON_OPTS $DOCKER_STORAGE_OPTS
+ExecStart=/storage/.kodi/addons/service.system.docker/bin/docker daemon -H fd:// $DOCKER_DAEMON_OPTS $DOCKER_STORAGE_OPTS
 MountFlags=slave
 LimitNOFILE=1048576
 LimitNPROC=1048576
