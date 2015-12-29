@@ -19,8 +19,8 @@
 ################################################################################
 
 PKG_NAME="docker"
-PKG_VERSION="1.9.0"
-PKG_REV="0"
+PKG_VERSION="1.9.1"
+PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="ASL"
 PKG_SITE="http://www.docker.com/"
