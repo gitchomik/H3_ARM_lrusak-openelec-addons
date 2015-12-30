@@ -46,10 +46,6 @@ unpack() {
 }
 
 configure_target() {
-  ./hack/vendor.sh
-
-  ln -fs $ROOT/$PKG_BUILD $ROOT/$PKG_BUILD/vendor/src/github.com/docker/docker
-
   export DOCKER_BUILDTAGS="daemon \
                            exclude_graphdriver_devicemapper \
                            exclude_graphdriver_aufs"
@@ -79,6 +75,12 @@ configure_target() {
   export LDFLAGS="-w -linkmode external -extldflags -Wl,--unresolved-symbols=ignore-in-shared-libs -extld $TARGET_CC"
   export GOLANG=$ROOT/$TOOLCHAIN/lib/golang/bin/go
   export GOPATH=$ROOT/$PKG_BUILD/.gopath:$ROOT/$PKG_BUILD/vendor
+  export GOROOT=$ROOT/$TOOLCHAIN/lib/golang
+  export PATH=$PATH:$GOROOT/bin
+
+  ./hack/vendor.sh
+
+  ln -fs $ROOT/$PKG_BUILD $ROOT/$PKG_BUILD/vendor/src/github.com/docker/docker
 
   # used for docker version
   export GITCOMMIT=$PKG_VERSION
