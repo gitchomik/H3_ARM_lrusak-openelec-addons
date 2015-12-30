@@ -19,7 +19,7 @@
 ################################################################################
 
 PKG_NAME="go"
-PKG_VERSION="1.5.1"
+PKG_VERSION="1.5.2"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="BSD"
@@ -40,7 +40,7 @@ PKG_MAINTAINER="Lukas Rusak (lorusak@gmail.com)"
 configure_host() {
   export GOOS=linux
   export GOROOT_FINAL=$ROOT/$TOOLCHAIN/lib/golang
-  export GOROOT_BOOTSTRAP=/usr/lib/golang
+  export GOROOT_BOOTSTRAP=$HOME/go
   export GOARCH=amd64
 }
 
