@@ -34,7 +34,7 @@ PKG_LONGDESC="lrusak's OpenELEC.tv Add-on Repository"
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.addon.repository"
 PKG_ADDON_PROVIDES=""
-PKG_ADDON_REPOVERSION="6.0"
+PKG_ADDON_REPOVERSION="7.0"
 
 PKG_AUTORECONF="no"
 

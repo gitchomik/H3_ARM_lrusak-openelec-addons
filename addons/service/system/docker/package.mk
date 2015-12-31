@@ -20,7 +20,7 @@
 
 PKG_NAME="docker"
 PKG_VERSION="1.9.1"
-PKG_REV="1"
+PKG_REV="0"
 PKG_ARCH="any"
 PKG_ADDON_PROJECTS="Generic"
 PKG_LICENSE="ASL"
@@ -36,7 +36,7 @@ PKG_AUTORECONF="no"
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_ADDON_PROVIDES=""
-PKG_ADDON_REPOVERSION="6.0"
+PKG_ADDON_REPOVERSION="7.0"
 
 PKG_SECTION="service/system"
 PKG_MAINTAINER="Lukas Rusak (lorusak@gmail.com)"
