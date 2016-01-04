@@ -1,0 +1,13 @@
+[Unit]
+Description=a standalone userland driver for the steam controller
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /storage/.kodi/addons/service.driver.steamcontroller/bin/sc-desktop.py start
+ExecStop=/usr/bin/python /storage/.kodi/addons/service.driver.steamcontroller/bin/sc-desktop.py stop
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+Alias=steamcontroller.service
