@@ -55,11 +55,11 @@ configure_target() {
     arm)
       export GOARCH=arm
 
-      case $PROJECT in
-        RPi)
+      case $TARGET_CPU in
+        arm1176jzf-s)
           export GOARM=6
           ;;
-        RPi2|WeTek_Play|imx6)
+        cortex-a7)
          export GOARM=7
          ;;
       esac
