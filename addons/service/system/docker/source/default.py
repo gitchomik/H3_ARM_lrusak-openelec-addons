@@ -31,12 +31,14 @@ sys.path.append('/usr/share/kodi/addons/service.openelec.settings')
 
 import oe
 
-__author__     = 'lrusak'
-__url__        = 'https://github.com/lrusak/lrusak-openelec-addons'
-__addon__      = xbmcaddon.Addon()
-__path__       = __addon__.getAddonInfo('path')
-__service__    = __path__ + '/systemd/' + __addon__.getAddonInfo('id') + '.service'
-__socket__     = __path__ + '/systemd/' + __addon__.getAddonInfo('id') + '.socket'
+__author__      = 'lrusak'
+__url__         = 'https://github.com/lrusak/lrusak-openelec-addons'
+__addon__       = xbmcaddon.Addon()
+__path__        = __addon__.getAddonInfo('path')
+__service__     = __path__ + '/systemd/' + __addon__.getAddonInfo('id') + '.service'
+__servicename__ = __addon__.getAddonInfo('id') + '.service'
+__socket__      = __path__ + '/systemd/' + __addon__.getAddonInfo('id') + '.socket'
+__socketname__  = __addon__.getAddonInfo('id') + '.socket'
 
 class Main(object):
 
@@ -60,23 +62,23 @@ class Docker(object):
         self.execute('systemctl enable ' + __socket__)
 
     def disable(self):
-        self.execute('systemctl disable docker.service')
-        self.execute('systemctl disable docker.socket')
+        self.execute('systemctl disable ' + __servicename__)
+        self.execute('systemctl disable ' + __socketname__)
 
     def is_enabled(self):
-        if self.execute('systemctl is-enabled docker', get_result=1).strip('\n') == 'enabled':
+        if self.execute('systemctl is-enabled ' + __servicename__, get_result=1).strip('\n') == 'enabled':
             return True
         else:
             return False
 
     def start(self):
-        self.execute('systemctl start docker')
+        self.execute('systemctl start ' + __servicename__)
 
     def stop(self):
-        self.execute('systemctl stop docker')
+        self.execute('systemctl stop ' + __servicename__)
 
     def is_active(self):
-        if self.execute('systemctl is-active docker', get_result=1).strip('\n') == 'active':
+        if self.execute('systemctl is-active ' + __servicename__, get_result=1).strip('\n') == 'active':
             return True
         else:
             return False
