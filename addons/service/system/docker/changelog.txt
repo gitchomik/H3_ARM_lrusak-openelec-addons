@@ -1,5 +1,10 @@
+6.0.3
+- update to docker 1.10.1
+- update to go 1.6
+
 6.0.2
 - fix service so it can be enabled/disabled properly
+
 6.0.1
 - Update to 1.9.1
 
