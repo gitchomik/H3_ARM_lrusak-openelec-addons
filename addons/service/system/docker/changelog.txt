@@ -1,3 +1,6 @@
+7.0.4
+- update to docker 1.10.3
+
 7.0.3
 - update to docker 1.10.2
 
