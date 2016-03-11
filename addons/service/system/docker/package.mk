@@ -17,8 +17,8 @@
 ################################################################################
 
 PKG_NAME="docker"
-PKG_VERSION="1.10.2"
-PKG_REV="4"
+PKG_VERSION="1.10.3"
+PKG_REV="5"
 PKG_ARCH="any"
 PKG_ADDON_PROJECTS="Generic"
 PKG_LICENSE="ASL"
