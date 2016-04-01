@@ -39,8 +39,7 @@ configure_host() {
   export GOOS=linux
   export GOROOT_FINAL=$ROOT/$TOOLCHAIN/lib/golang
   export GOROOT_BOOTSTRAP=$HOME/go
-  #export GOARCH=amd64
-  export GOARCH=arm
+  export GOARCH=amd64
 }
 
 make_host() {
