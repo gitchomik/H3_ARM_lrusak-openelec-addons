@@ -216,30 +216,6 @@ diff -Naur a/integration-cli/docker_cli_start_volume_driver_unix_test.go b/integ
  	os.RemoveAll(specPath)
  	defer os.RemoveAll(specPath)
  
-diff -Naur a/integration-cli/docker_cli_volume_driver_compat_unix_test.go b/integration-cli/docker_cli_volume_driver_compat_unix_test.go
---- a/integration-cli/docker_cli_volume_driver_compat_unix_test.go	2016-02-11 19:45:56.000000000 +0100
-+++ b/integration-cli/docker_cli_volume_driver_compat_unix_test.go	2016-02-19 00:28:50.646085667 +0100
-@@ -173,17 +173,17 @@
- 		send(w, nil)
- 	})
- 
--	err := os.MkdirAll("/etc/docker/plugins", 0755)
-+	err := os.MkdirAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins", 0755)
- 	c.Assert(err, checker.IsNil)
- 
--	err = ioutil.WriteFile("/etc/docker/plugins/test-external-volume-driver.spec", []byte(s.server.URL), 0644)
-+	err = ioutil.WriteFile("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins/test-external-volume-driver.spec", []byte(s.server.URL), 0644)
- 	c.Assert(err, checker.IsNil)
- }
- 
- func (s *DockerExternalVolumeSuiteCompatV1_1) TearDownSuite(c *check.C) {
- 	s.server.Close()
- 
--	err := os.RemoveAll("/etc/docker/plugins")
-+	err := os.RemoveAll("/storage/.kodi/userdata/addon_data/service.system.docker/config/plugins")
- 	c.Assert(err, checker.IsNil)
- }
- 
 diff -Naur a/pkg/plugins/discovery.go b/pkg/plugins/discovery.go
 --- a/pkg/plugins/discovery.go	2016-02-11 19:45:56.000000000 +0100
 +++ b/pkg/plugins/discovery.go	2016-02-19 00:28:50.247084996 +0100
@@ -276,9 +252,9 @@ diff -Naur a/registry/config_unix.go b/registry/config_unix.go
  )
  
  // cleanPath is used to ensure that a directory name is valid on the target
-diff -Naur a/registry/endpoint.go b/registry/endpoint.go
---- a/registry/endpoint.go	2016-02-11 19:45:56.000000000 +0100
-+++ b/registry/endpoint.go	2016-02-19 00:28:50.740085826 +0100
+diff -Naur a/registry/endpoint_v1.go b/registry/endpoint_v1.go
+--- a/registry/endpoint_v1.go	2016-02-11 19:45:56.000000000 +0100
++++ b/registry/endpoint_v1.go	2016-02-19 00:28:50.740085826 +0100
 @@ -73,7 +73,7 @@
  		if endpoint.IsSecure {
  			// If registry is secure and HTTPS failed, show user the error and tell them about `--insecure-registry`
