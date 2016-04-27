@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="docker"
-PKG_VERSION="1.11.0"
+PKG_VERSION="1.11.1"
 PKG_REV="4"
 PKG_ARCH="any"
 PKG_ADDON_PROJECTS="Generic RPi RPi2 H3"
